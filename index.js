@@ -10,7 +10,8 @@ const CREDS = require('./creds.js')
 
 const LAUNCH_OPTIONS = {
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+    executablePath: '/usr/bin/chromium-browser'
 }
 
 async function createPage(browser, width, height) {
