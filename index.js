@@ -1,3 +1,5 @@
+const argv = require('minimist')(process.argv.slice(2))
+console.log(argv)
 const puppeteer = require('puppeteer')
 
 const LOOP_TIMEOUT = 1000 * 60 * 5
@@ -8,11 +10,23 @@ const BUTTON_SELECTOR = '#login-submit'
 
 const CREDS = require('./creds.js')
 
-const LAUNCH_OPTIONS = {
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
-    executablePath: '/usr/bin/chromium-browser'
+function setLaunchOptions() {
+    if (argv.rpi) {
+        return {
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+            executablePath: '/usr/bin/chromium-browser'
+        }
+    } else {
+        return {
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+        }
+    }
 }
+
+const LAUNCH_OPTIONS = setLaunchOptions()
+console.log(LAUNCH_OPTIONS);
 
 async function createPage(browser, width, height) {
     const page = await browser.newPage()
@@ -64,7 +78,7 @@ async function parsePageForFeeds(selector) {
         let qt = element.querySelector(TITLE_RELATIVE_SELECTOR)
         let title = null
         if (qt != null) title = qt.textContent
-        
+
 
         data.push({
             liker: liker,
