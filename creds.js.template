@@ -1,0 +1,4 @@
+module.exports = {
+    username: '<linkedin e-mail>',
+    password: '<linkedin password>'
+}
